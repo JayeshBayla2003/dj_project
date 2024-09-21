@@ -1,6 +1,7 @@
-from django.http import HttpResponse, Http404, JsonResponse
-from django.shortcuts import render
+from django.http import HttpResponse, HttpResponseRedirect,Http404, JsonResponse
+from django.shortcuts import render,redirect
 
+from .forms import ProductModelForm
 from .models import Products
 # Create your views here.
 
@@ -25,14 +26,34 @@ def search_view(request, *args, **kwargs):
     return render(request, "home.html", context)
 
 
+# def product_create_view(request, *args, **kwargs):
+#     print(request.POST)
+#     print(request.GET)
+#     if request.method == "POST":
+#         post_data = request.POST or None
+#         if post_data != None:
+#             my_form = ProductForm(request.POST)
+#             if my_form.is_valid():
+#                 print(my_form.cleaned_data.get("title"))
+#                 title_from_input = my_form.cleaned_data.get("title")
+#                 Products.objects.create(title=title_from_input)
+#                 # print("post_data", post_data)
+#     return render(request, "forms.html", {})
+
+
 def product_create_view(request, *args, **kwargs):
-    print(request.POST)
-    print(request.GET)
-    if request.method == "POST":
-        post_data = request.POST or None
-        if post_data != None:
-            print("post_data", post_data)
-    return render(request, "forms.html", {})
+    form = ProductModelForm(request.POST or None)
+    if form.is_valid():
+        obj = form.save(commit = False)
+        obj.save()
+        # print(form.cleaned_data)
+        # data = form.cleaned_data
+        # Products.objects.create(**data)
+        form = ProductModelForm()
+        # return HttpResponseRedirect("/success")
+        # return redirect("/success")
+
+    return render(request, "forms.html", {"form": form})
 
 
 def products_detail_view(request, pk):
