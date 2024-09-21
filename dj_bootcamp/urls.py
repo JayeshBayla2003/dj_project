@@ -21,6 +21,7 @@ from django.urls import path, re_path
 from products.views import (
     # bad_view,
     search_view,
+    product_create_view,
     products_detail_view,
     product_list_view,
     product_api_detail_view
@@ -30,6 +31,7 @@ urlpatterns = [
     # path('bad-view-dont-use/', bad_view),
     path('search/', search_view),
     path('products/', product_list_view),
+    path('products/create/', product_create_view),
     path('products/<int:pk>/', products_detail_view),
     # path('products/1/', views.products_detail_view),
     re_path(r'api/products/(?P<pk>\d+)/', product_api_detail_view),

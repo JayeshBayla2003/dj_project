@@ -26,10 +26,13 @@ def search_view(request, *args, **kwargs):
 
 
 def product_create_view(request, *args, **kwargs):
-
-
-
-    return render(request, "forms.html", context)
+    print(request.POST)
+    print(request.GET)
+    if request.method == "POST":
+        post_data = request.POST or None
+        if post_data != None:
+            print("post_data", post_data)
+    return render(request, "forms.html", {})
 
 
 def products_detail_view(request, pk):
